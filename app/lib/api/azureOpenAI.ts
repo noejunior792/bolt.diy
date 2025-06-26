@@ -1,7 +1,7 @@
 import { generateText as generate } from '@ai-sdk/openai';
 import { getProviderSettings } from '~/lib/api/settings';
 import { AZURE_OPENAI_PROVIDER_ID } from '~/utils/constants';
-import type { ChatMessage } from '~/types/model';
+import type { ChatMessage } from '~/types/azure-openai';
 
 interface GenerateTextOptions {
   messages: ChatMessage[];

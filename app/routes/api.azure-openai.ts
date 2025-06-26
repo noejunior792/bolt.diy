@@ -1,5 +1,5 @@
 import { generateText } from '~/lib/api/azureOpenAI';
-import type { ChatMessage } from '~/types/model';
+import type { ChatMessage } from '~/types/azure-openai';
 
 export async function action({ request }: { request: Request }) {
   const body = await request.json();
