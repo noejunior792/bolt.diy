@@ -1,15 +1,16 @@
 import { generateText } from '~/lib/api/azureOpenAI';
+import type { ChatMessage } from '~/types/model';
 
 export async function action({ request }: { request: Request }) {
   const body = await request.json();
-  const { prompt, model, maxTokens, temperature } = body;
+  const { messages, model, maxTokens, temperature } = body;
 
-  if (!prompt) {
-    return new Response('Prompt is required', { status: 400 });
+  if (!messages || !Array.isArray(messages) || messages.length === 0) {
+    return new Response('Messages are required and must be an array', { status: 400 });
   }
 
   try {
-    const responseText = await generateText({ prompt, model, maxTokens, temperature });
+    const responseText = await generateText({ messages, model, maxTokens, temperature });
     return new Response(JSON.stringify({ response: responseText }), { status: 200 });
   } catch (error: any) {
     console.error('Failed to generate text:', error);
