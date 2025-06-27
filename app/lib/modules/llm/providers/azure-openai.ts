@@ -38,6 +38,11 @@ export default class AzureOpenAIProvider extends BaseProvider {
       settings?.customConfiguration?.AZURE_OPENAI_API_VERSION ||
       serverEnv?.AZURE_OPENAI_API_VERSION;
 
+    console.log(`[AzureOpenAIProvider] getDynamicModels - baseUrl: ${baseUrl}`);
+    console.log(`[AzureOpenAIProvider] getDynamicModels - apiKey: ${apiKey ? 'SET' : 'NOT SET'}`);
+    console.log(`[AzureOpenAIProvider] getDynamicModels - deploymentName: ${deploymentName}`);
+    console.log(`[AzureOpenAIProvider] getDynamicModels - apiVersion: ${apiVersion}`);
+
     if (!baseUrl || !apiKey || !deploymentName || !apiVersion) {
       return [];
     }
@@ -78,6 +83,11 @@ export default class AzureOpenAIProvider extends BaseProvider {
     const apiVersion =
       providerSettings?.[this.name]?.customConfiguration?.AZURE_OPENAI_API_VERSION ||
       serverEnv?.AZURE_OPENAI_API_VERSION;
+
+    console.log(`[AzureOpenAIProvider] getModelInstance - baseUrl: ${baseUrl}`);
+    console.log(`[AzureOpenAIProvider] getModelInstance - apiKey: ${apiKey ? 'SET' : 'NOT SET'}`);
+    console.log(`[AzureOpenAIProvider] getModelInstance - deploymentName: ${deploymentName}`);
+    console.log(`[AzureOpenAIProvider] getModelInstance - apiVersion: ${apiVersion}`);
 
     if (!baseUrl || !apiKey || !deploymentName || !apiVersion) {
       throw new Error(`Missing configuration for ${this.name} provider. Ensure AZURE_OPENAI_ENDPOINT, AZURE_OPENAI_API_KEY, AZURE_OPENAI_DEPLOYMENT_NAME, and AZURE_OPENAI_API_VERSION are set.`);
