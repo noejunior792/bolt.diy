@@ -12,6 +12,7 @@ export default class AzureOpenAIProvider extends BaseProvider {
     baseUrlKey: 'AZURE_OPENAI_ENDPOINT',
     apiTokenKey: 'AZURE_OPENAI_API_KEY',
     deploymentNameKey: 'AZURE_OPENAI_DEPLOYMENT_NAME',
+    apiVersionKey: 'AZURE_OPENAI_API_VERSION',
   };
 
   staticModels: ModelInfo[] = []; // Azure models are typically dynamic based on deployment
@@ -76,10 +77,20 @@ export default class AzureOpenAIProvider extends BaseProvider {
       throw new Error(`Missing configuration for ${this.name} provider. Ensure AZURE_OPENAI_ENDPOINT, AZURE_OPENAI_API_KEY, and AZURE_OPENAI_DEPLOYMENT_NAME are set.`);
     }
 
+    const apiVersion =
+      providerSettings?.[this.name]?.customConfiguration?.AZURE_OPENAI_API_VERSION ||
+      serverEnv?.AZURE_OPENAI_API_VERSION ||
+      apiKeys?.AZURE_OPENAI_API_VERSION;
+
+    if (!apiVersion) {
+      throw new Error(`Missing AZURE_OPENAI_API_VERSION for ${this.name} provider.`);
+    }
+
     const azureOpenai = createOpenAI({
       baseURL: `${baseUrl}/openai/deployments/${deploymentName}`,
       apiKey,
       defaultHeaders: { 'api-key': apiKey },
+      defaultQuery: { 'api-version': apiVersion },
     });
 
     return azureOpenai(model);
