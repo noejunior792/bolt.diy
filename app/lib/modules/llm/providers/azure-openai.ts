@@ -34,7 +34,15 @@ export default class AzureOpenAIProvider extends BaseProvider {
     // Azure OpenAI does not have a public API to list deployments/models directly.
     // Models are tied to deployments. We'll assume the deployment name is the model name.
     // In a real scenario, you might have a predefined list or fetch from a custom management API.
-    return [{ name: deploymentName, label: `${deploymentName} (Azure)`, provider: this.name, maxTokenAllowed: 8000 }];
+    const models: ModelInfo[] = [
+      {
+        name: deploymentName,
+        label: `${deploymentName} (Azure)`,
+        provider: this.name,
+        maxTokenAllowed: 8000, // Default, can be overridden if known
+      },
+    ];
+    return models;
   }
 
   getModelInstance(options: {
