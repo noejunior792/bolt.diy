@@ -32,11 +32,15 @@ export default class AzureOpenAIProvider extends BaseProvider {
 
     const deploymentName =
       settings?.customConfiguration?.AZURE_OPENAI_DEPLOYMENT_NAME ||
-      serverEnv?.AZURE_OPENAI_DEPLOYMENT_NAME;
+      serverEnv?.AZURE_OPENAI_DEPLOYMENT_NAME ||
+      process?.env?.AZURE_OPENAI_DEPLOYMENT_NAME ||
+      this.manager.env?.AZURE_OPENAI_DEPLOYMENT_NAME;
 
     const apiVersion =
       settings?.customConfiguration?.AZURE_OPENAI_API_VERSION ||
-      serverEnv?.AZURE_OPENAI_API_VERSION;
+      serverEnv?.AZURE_OPENAI_API_VERSION ||
+      process?.env?.AZURE_OPENAI_API_VERSION ||
+      this.manager.env?.AZURE_OPENAI_API_VERSION;
 
     if (!apiVersion) {
       return [];
@@ -77,11 +81,15 @@ export default class AzureOpenAIProvider extends BaseProvider {
 
     const deploymentName =
       providerSettings?.[this.name]?.customConfiguration?.AZURE_OPENAI_DEPLOYMENT_NAME ||
-      serverEnv?.AZURE_OPENAI_DEPLOYMENT_NAME;
+      serverEnv?.AZURE_OPENAI_DEPLOYMENT_NAME ||
+      process?.env?.AZURE_OPENAI_DEPLOYMENT_NAME ||
+      this.manager.env?.AZURE_OPENAI_DEPLOYMENT_NAME;
 
     const apiVersion =
       providerSettings?.[this.name]?.customConfiguration?.AZURE_OPENAI_API_VERSION ||
-      serverEnv?.AZURE_OPENAI_API_VERSION;
+      serverEnv?.AZURE_OPENAI_API_VERSION ||
+      process?.env?.AZURE_OPENAI_API_VERSION ||
+      this.manager.env?.AZURE_OPENAI_API_VERSION;
 
     if (!baseUrl || !apiKey || !deploymentName || !apiVersion) {
       throw new Error(`Missing configuration for ${this.name} provider. Ensure AZURE_OPENAI_ENDPOINT, AZURE_OPENAI_API_KEY, AZURE_OPENAI_DEPLOYMENT_NAME, and AZURE_OPENAI_API_VERSION are set.`);
