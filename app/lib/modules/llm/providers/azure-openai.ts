@@ -32,8 +32,15 @@ export default class AzureOpenAIProvider extends BaseProvider {
 
     const deploymentName =
       settings?.customConfiguration?.AZURE_OPENAI_DEPLOYMENT_NAME ||
-      serverEnv?.AZURE_OPENAI_DEPLOYMENT_NAME ||
-      apiKeys?.AZURE_OPENAI_DEPLOYMENT_NAME;
+      serverEnv?.AZURE_OPENAI_DEPLOYMENT_NAME;
+
+    const apiVersion =
+      settings?.customConfiguration?.AZURE_OPENAI_API_VERSION ||
+      serverEnv?.AZURE_OPENAI_API_VERSION;
+
+    if (!apiVersion) {
+      return [];
+    }
 
     if (!baseUrl || !apiKey || !deploymentName) {
       return [];
@@ -70,20 +77,14 @@ export default class AzureOpenAIProvider extends BaseProvider {
 
     const deploymentName =
       providerSettings?.[this.name]?.customConfiguration?.AZURE_OPENAI_DEPLOYMENT_NAME ||
-      serverEnv?.AZURE_OPENAI_DEPLOYMENT_NAME ||
-      apiKeys?.AZURE_OPENAI_DEPLOYMENT_NAME;
-
-    if (!baseUrl || !apiKey || !deploymentName) {
-      throw new Error(`Missing configuration for ${this.name} provider. Ensure AZURE_OPENAI_ENDPOINT, AZURE_OPENAI_API_KEY, and AZURE_OPENAI_DEPLOYMENT_NAME are set.`);
-    }
+      serverEnv?.AZURE_OPENAI_DEPLOYMENT_NAME;
 
     const apiVersion =
       providerSettings?.[this.name]?.customConfiguration?.AZURE_OPENAI_API_VERSION ||
-      serverEnv?.AZURE_OPENAI_API_VERSION ||
-      apiKeys?.AZURE_OPENAI_API_VERSION;
+      serverEnv?.AZURE_OPENAI_API_VERSION;
 
-    if (!apiVersion) {
-      throw new Error(`Missing AZURE_OPENAI_API_VERSION for ${this.name} provider.`);
+    if (!baseUrl || !apiKey || !deploymentName || !apiVersion) {
+      throw new Error(`Missing configuration for ${this.name} provider. Ensure AZURE_OPENAI_ENDPOINT, AZURE_OPENAI_API_KEY, AZURE_OPENAI_DEPLOYMENT_NAME, and AZURE_OPENAI_API_VERSION are set.`);
     }
 
     const azureOpenai = createOpenAI({
@@ -93,6 +94,6 @@ export default class AzureOpenAIProvider extends BaseProvider {
       defaultQuery: { 'api-version': apiVersion },
     });
 
-    return azureOpenai(model);
+    return azureOpenai(deploymentName);
   }
 }
