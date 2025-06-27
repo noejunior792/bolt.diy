@@ -138,6 +138,10 @@ export default defineConfig((config) => {
       'OLLAMA_API_BASE_URL',
       'LMSTUDIO_API_BASE_URL',
       'TOGETHER_API_BASE_URL',
+      'AZURE_OPENAI_ENDPOINT',
+      'AZURE_OPENAI_API_KEY',
+      'AZURE_OPENAI_DEPLOYMENT_NAME',
+      'AZURE_OPENAI_API_VERSION',
     ],
     css: {
       preprocessorOptions: {
