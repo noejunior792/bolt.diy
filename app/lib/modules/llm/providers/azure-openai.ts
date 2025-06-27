@@ -30,8 +30,6 @@ export default class AzureOpenAIProvider extends BaseProvider {
     if (!baseUrl || !apiKey || !deploymentName || !apiVersion) {
       return [];
     }
-      return [];
-    }
 
     // Azure OpenAI does not have a public API to list deployments/models directly.
     // Models are tied to deployments. We'll assume the deployment name is the model name.
@@ -60,8 +58,6 @@ export default class AzureOpenAIProvider extends BaseProvider {
     const apiVersion = providerSettings?.[this.name]?.customConfiguration?.AZURE_OPENAI_API_VERSION || serverEnv?.AZURE_OPENAI_API_VERSION;
 
     if (!baseUrl || !apiKey || !deploymentName || !apiVersion) {
-      throw new Error(`Missing configuration for ${this.name} provider. Ensure AZURE_OPENAI_ENDPOINT, AZURE_OPENAI_API_KEY, AZURE_OPENAI_DEPLOYMENT_NAME, and AZURE_OPENAI_API_VERSION are set.`);
-    }
       throw new Error(`Missing configuration for ${this.name} provider. Ensure AZURE_OPENAI_ENDPOINT, AZURE_OPENAI_API_KEY, AZURE_OPENAI_DEPLOYMENT_NAME, and AZURE_OPENAI_API_VERSION are set.`);
     }
 
