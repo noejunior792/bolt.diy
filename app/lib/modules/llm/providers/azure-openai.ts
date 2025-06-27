@@ -31,6 +31,7 @@ export default class AzureOpenAIProvider extends BaseProvider {
     console.log(`[AzureOpenAIProvider] getDynamicModels - apiKey: ${apiKey ? 'SET' : 'NOT SET'}`);
     console.log(`[AzureOpenAIProvider] getDynamicModels - deploymentName: ${deploymentName}`);
     console.log(`[AzureOpenAIProvider] getDynamicModels - apiVersion: ${apiVersion}`);
+    console.log(`[AzureOpenAIProvider] LLMManager.env: ${JSON.stringify(this.manager.env)}`);
 
     if (!baseUrl || !apiKey || !deploymentName || !apiVersion) {
       return [];
@@ -66,6 +67,7 @@ export default class AzureOpenAIProvider extends BaseProvider {
     console.log(`[AzureOpenAIProvider] getModelInstance - apiKey: ${apiKey ? 'SET' : 'NOT SET'}`);
     console.log(`[AzureOpenAIProvider] getModelInstance - deploymentName: ${deploymentName}`);
     console.log(`[AzureOpenAIProvider] getModelInstance - apiVersion: ${apiVersion}`);
+    console.log(`[AzureOpenAIProvider] LLMManager.env: ${JSON.stringify(this.manager.env)}`);
 
     if (!baseUrl || !apiKey || !deploymentName || !apiVersion) {
       throw new Error(`Missing configuration for ${this.name} provider. Ensure AZURE_OPENAI_ENDPOINT, AZURE_OPENAI_API_KEY, AZURE_OPENAI_DEPLOYMENT_NAME, and AZURE_OPENAI_API_VERSION are set.`);
