@@ -1,3 +1,5 @@
+import type { IProviderSetting } from '~/types/model';
+
 export function parseCookies(cookieHeader: string | null) {
   const cookies: Record<string, string> = {};
 
@@ -27,7 +29,7 @@ export function getApiKeysFromCookie(cookieHeader: string | null): Record<string
   return cookies.apiKeys ? JSON.parse(cookies.apiKeys) : {};
 }
 
-export function getProviderSettingsFromCookie(cookieHeader: string | null): Record<string, any> {
+export function getProviderSettingsFromCookie(cookieHeader: string | null): Record<string, IProviderSetting> {
   const cookies = parseCookies(cookieHeader);
   return cookies.providers ? JSON.parse(cookies.providers) : {};
 }
