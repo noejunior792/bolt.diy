@@ -22,13 +22,13 @@ export default class AzureOpenAIProvider extends BaseProvider {
     settings?: IProviderSetting,
     serverEnv?: Record<string, string>,
   ): Promise<ModelInfo[]> {
-    const { baseUrl, apiKey } = this.getProviderBaseUrlAndKey({
-      apiKeys,
-      providerSettings: settings,
-      serverEnv: serverEnv as any,
-      defaultBaseUrlKey: 'AZURE_OPENAI_ENDPOINT',
-      defaultApiTokenKey: 'AZURE_OPENAI_API_KEY',
-    });
+    const baseUrl =
+      settings?.baseUrl ||
+      serverEnv?.AZURE_OPENAI_ENDPOINT;
+
+    const apiKey =
+      apiKeys?.[this.name] ||
+      serverEnv?.AZURE_OPENAI_API_KEY;
 
     const deploymentName =
       settings?.customConfiguration?.AZURE_OPENAI_DEPLOYMENT_NAME ||
@@ -38,11 +38,7 @@ export default class AzureOpenAIProvider extends BaseProvider {
       settings?.customConfiguration?.AZURE_OPENAI_API_VERSION ||
       serverEnv?.AZURE_OPENAI_API_VERSION;
 
-    if (!apiVersion) {
-      return [];
-    }
-
-    if (!baseUrl || !apiKey || !deploymentName) {
+    if (!baseUrl || !apiKey || !deploymentName || !apiVersion) {
       return [];
     }
 
