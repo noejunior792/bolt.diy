@@ -54,6 +54,10 @@ async function llmCallAction({ context, request }: ActionFunctionArgs) {
   const apiKeys = getApiKeysFromCookie(cookieHeader);
   const providerSettings = getProviderSettingsFromCookie(cookieHeader);
 
+  // Merge process.env into context.cloudflare.env to ensure all Docker environment variables are available
+  context.cloudflare = context.cloudflare || {};
+  context.cloudflare.env = { ...process.env, ...context.cloudflare.env };
+
   if (streamOutput) {
     try {
       const result = await streamText({

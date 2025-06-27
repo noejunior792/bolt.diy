@@ -61,6 +61,10 @@ async function chatAction({ context, request }: ActionFunctionArgs) {
     parseCookies(cookieHeader || '').providers || '{}',
   );
 
+  // Merge process.env into context.cloudflare.env to ensure all Docker environment variables are available
+  context.cloudflare = context.cloudflare || {};
+  context.cloudflare.env = { ...process.env, ...context.cloudflare.env };
+
   const stream = new SwitchableStream();
 
   const cumulativeUsage = {
