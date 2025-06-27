@@ -22,21 +22,10 @@ export default class AzureOpenAIProvider extends BaseProvider {
     settings?: IProviderSetting,
     serverEnv?: Record<string, string>,
   ): Promise<ModelInfo[]> {
-    const baseUrl =
-      settings?.baseUrl ||
-      serverEnv?.AZURE_OPENAI_ENDPOINT;
-
-    const apiKey =
-      apiKeys?.[this.name] ||
-      serverEnv?.AZURE_OPENAI_API_KEY;
-
-    const deploymentName =
-      settings?.customConfiguration?.AZURE_OPENAI_DEPLOYMENT_NAME ||
-      serverEnv?.AZURE_OPENAI_DEPLOYMENT_NAME;
-
-    const apiVersion =
-      settings?.customConfiguration?.AZURE_OPENAI_API_VERSION ||
-      serverEnv?.AZURE_OPENAI_API_VERSION;
+    const baseUrl = settings?.baseUrl || serverEnv?.AZURE_OPENAI_ENDPOINT;
+    const apiKey = apiKeys?.[this.name] || serverEnv?.AZURE_OPENAI_API_KEY;
+    const deploymentName = settings?.customConfiguration?.AZURE_OPENAI_DEPLOYMENT_NAME || serverEnv?.AZURE_OPENAI_DEPLOYMENT_NAME;
+    const apiVersion = settings?.customConfiguration?.AZURE_OPENAI_API_VERSION || serverEnv?.AZURE_OPENAI_API_VERSION;
 
     console.log(`[AzureOpenAIProvider] getDynamicModels - baseUrl: ${baseUrl}`);
     console.log(`[AzureOpenAIProvider] getDynamicModels - apiKey: ${apiKey ? 'SET' : 'NOT SET'}`);
@@ -66,23 +55,12 @@ export default class AzureOpenAIProvider extends BaseProvider {
     apiKeys?: Record<string, string>;
     providerSettings?: Record<string, IProviderSetting>;
   }): LanguageModelV1 {
-    const { model, serverEnv, apiKeys, providerSettings } = options;
+    const { serverEnv, apiKeys, providerSettings } = options;
 
-    const { baseUrl, apiKey } = this.getProviderBaseUrlAndKey({
-      apiKeys,
-      providerSettings: providerSettings?.[this.name],
-      serverEnv: serverEnv as any,
-      defaultBaseUrlKey: 'AZURE_OPENAI_ENDPOINT',
-      defaultApiTokenKey: 'AZURE_OPENAI_API_KEY',
-    });
-
-    const deploymentName =
-      providerSettings?.[this.name]?.customConfiguration?.AZURE_OPENAI_DEPLOYMENT_NAME ||
-      serverEnv?.AZURE_OPENAI_DEPLOYMENT_NAME;
-
-    const apiVersion =
-      providerSettings?.[this.name]?.customConfiguration?.AZURE_OPENAI_API_VERSION ||
-      serverEnv?.AZURE_OPENAI_API_VERSION;
+    const baseUrl = providerSettings?.[this.name]?.baseUrl || serverEnv?.AZURE_OPENAI_ENDPOINT;
+    const apiKey = apiKeys?.[this.name] || serverEnv?.AZURE_OPENAI_API_KEY;
+    const deploymentName = providerSettings?.[this.name]?.customConfiguration?.AZURE_OPENAI_DEPLOYMENT_NAME || serverEnv?.AZURE_OPENAI_DEPLOYMENT_NAME;
+    const apiVersion = providerSettings?.[this.name]?.customConfiguration?.AZURE_OPENAI_API_VERSION || serverEnv?.AZURE_OPENAI_API_VERSION;
 
     console.log(`[AzureOpenAIProvider] getModelInstance - baseUrl: ${baseUrl}`);
     console.log(`[AzureOpenAIProvider] getModelInstance - apiKey: ${apiKey ? 'SET' : 'NOT SET'}`);
